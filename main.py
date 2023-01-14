@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from algo import compute_tax_mainlandchina
+from mainlandchina_tax_algo import compute_tax_mainlandchina
 
 salary = range(5000, 5000*12, 1)
 tax = np.vectorize(compute_tax_mainlandchina)(salary)
