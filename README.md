@@ -1,0 +1,3 @@
+# OptimalPersonalTaxMainlandChinaAndTaiwan
+
+幫助自己談薪時，算出一個對自己與雇主，都性價比最好的數字。
