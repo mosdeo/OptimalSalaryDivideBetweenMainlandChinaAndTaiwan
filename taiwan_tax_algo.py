@@ -113,3 +113,6 @@ class TaiwanTax:
                 tax = tax_salary * rate - base
                 return tax
         return -1
+
+    def net_salary(self):
+        return self.salary - self.health_insurance_fee() - self.labor_insurance_fee() - self.tax()

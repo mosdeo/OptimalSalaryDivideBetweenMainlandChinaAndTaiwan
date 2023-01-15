@@ -54,3 +54,6 @@ class MainlandChinaTax:
                 break
 
         return tax
+
+    def salary_after_tax(self):
+        return self.salary - self.tax()
