@@ -92,7 +92,7 @@ class TaiwanTax:
 
     def __salary_level_mapping(self, mapping_table):
         for (min_, max_), level in mapping_table:
-            if min_ <= self.salary < max_:
+            if min_ <= self.salary <= max_:
                 return level
         return -1
 
@@ -108,7 +108,8 @@ class TaiwanTax:
         tax_salary = self.salary - self.health_insurance_fee() - self.labor_insurance_fee()
         # https://www.ntbt.gov.tw/multiplehtml/1b82b380e1a34de9afd204d39b007db2
         for (min_, max_), rate, base in tax_mapping_table:
-            if min_/12 <= tax_salary < max_/12:
-                tax = tax_salary * rate - base/12
+            (min_, max_), base = (min_/12, max_/12), base/12 # 每月
+            if min_ <= tax_salary <= max_:
+                tax = tax_salary * rate - base
                 return tax
         return -1
