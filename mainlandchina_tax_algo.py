@@ -1,6 +1,7 @@
 import numpy as np
 
 tax_rate_mainlandchina = [
+    # https://www.toutiao.com/article/7185763443599819320/
     # 稅率, (最低, 最高), 速算扣除數
     (0.03, (0, 36000), 0),
     (0.10, (36000, 144000), 2520),
@@ -42,8 +43,9 @@ def compute_tax_mainlandchina(salary, start_tax_level=5000):
 
     tax = 0
     for rate, (min_, max_), base in tax_rate_mainlandchina:
-        if min_/12 <= tax_salary < max_/12:
-            tax = (tax_salary - min_/12) * rate + base/12
+        (min_, max_), base = (min_/12, max_/12), base/12 # 每月
+        if min_ < tax_salary <= max_:
+            tax = tax_salary * rate - base
             break
 
     return tax
