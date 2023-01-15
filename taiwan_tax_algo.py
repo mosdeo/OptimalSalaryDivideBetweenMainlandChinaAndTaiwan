@@ -90,19 +90,19 @@ class TaiwanTax:
     def __init__(self, salary):
         self.salary = salary
 
-    def __compute_salary_deduction_taiwan(self, mapping_table):
+    def __salary_level_mapping(self, mapping_table):
         for (min_, max_), level in mapping_table:
             if min_ <= self.salary < max_:
                 return level
         return -1
 
     def health_insurance_fee(self):
-        fee = self.__compute_salary_deduction_taiwan(health_insurance_mapping_table)
-        return fee * 0.0517 * 0.3 # 健康保險費(個人負擔30%)
+        salary_level = self.__salary_level_mapping(health_insurance_mapping_table)
+        return salary_level * 0.0517 * 0.3 # 健康保險費(個人負擔30%)
 
     def labor_insurance_fee(self):
-        fee = self.__compute_salary_deduction_taiwan(labor_insurance_mapping_table)
-        return fee * 0.12 * 0.2 # 勞工保險費(個人負擔20%)
+        salary_level = self.__salary_level_mapping(labor_insurance_mapping_table)
+        return salary_level * 0.12 * 0.2 # 勞工保險費(個人負擔20%)
 
     def tax(self):
         tax_salary = self.salary - self.health_insurance_fee() - self.labor_insurance_fee()
@@ -112,14 +112,3 @@ class TaiwanTax:
                 tax = tax_salary * rate - base/12
                 return tax
         return -1
-    
-
-
-
-
-     
-
-
-
-
-
