@@ -1,9 +1,9 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from mainlandchina_tax_algo import compute_tax_mainlandchina
+from mainlandchina_tax_algo import MainlandChinaTax
 
 salary = range(5000, 5000*12, 1)
-tax = np.vectorize(compute_tax_mainlandchina)(salary)
+tax = [MainlandChinaTax(s).tax() for s in salary]
 income = np.array(salary) - tax
 
 fig, ax = plt.subplots()
