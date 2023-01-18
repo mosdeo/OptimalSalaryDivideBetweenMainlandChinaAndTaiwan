@@ -19,22 +19,35 @@ class MainlandChinaTax:
         self.is_retirement = is_retirement
         self.is_unemployment_insurance = is_unemployment_insurance
 
-    def five_insurances(self):
-        retirement = self.salary * 0.08 if self.is_retirement else 0 # 養老金
-        unemployment_insurance = self.salary * 0.005 if self.is_retirement else 0 # 失業保險
-        medical_insurance = self.salary * 0.02 # 醫療保險
-        maternity_insurance = 0 # 生育保險
-
-        # 工傷保險
+    # 工傷保險費
+    def work_injury_insurance(self):
         # 工伤保险的参险费率叫什么？ - 愿醉的回答 - 知乎
         # https://www.zhihu.com/question/366265079/answer/976702720
-        work_injury_insurance = self.salary * 0.002
+        return self.salary * 0.002
+
+    # 生育保險費
+    def maternity_insurance(self):
+        return self.salary * 0
+
+    # 醫療保險費
+    def medical_insurance(self):
+        return self.salary * 0.02
+
+    # 養老金
+    def retirement(self):
+        return self.salary * 0.08 if self.is_retirement else 0
+
+    # 失業保險費
+    def unemployment_insurance(self):
+        return self.salary * 0.005 if self.is_unemployment_insurance else 0
+
+    def five_insurances(self):
         return np.sum([
-            retirement, 
-            medical_insurance, 
-            unemployment_insurance, 
-            maternity_insurance, 
-            work_injury_insurance])
+            self.retirement(), 
+            self.unemployment_insurance(), 
+            self.medical_insurance(),
+            self.maternity_insurance(), 
+            self.work_injury_insurance()])
 
     def house_savings(self):
         return self.salary * self.house_savings_rate
