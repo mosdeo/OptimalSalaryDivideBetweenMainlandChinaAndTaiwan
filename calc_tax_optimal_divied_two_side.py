@@ -16,28 +16,23 @@ if __name__ == '__main__':
     for s in range(salary):
         # 期望薪資TWD部分、扣項、到手部分
         salary_TWD = s * exchange_rate_CNY_to_TWD
-
         # 不足台灣法定最低工資，則不計算
         if salary_TWD < TaiwanTax.basic_salary:
             continue
         taiwanTax = TaiwanTax(salary_TWD)
-        deductions_TWD = salary_TWD - taiwanTax.net_salary()
-        net_salary_TWD = salary_TWD - deductions_TWD
 
         # 期望薪資CNY部分、扣項、到手部分
         salary_CNY = salary - s
         # 不足中國常規最低工資，則不計算
         if salary_CNY < MainlandChinaTax.normal_lowest_salary:
             continue
-
         # 這裡將公積金算入到手薪資中，但依然是扣項
         # 公積金=12%, 不繳失業保險、不繳退休金
         mainlandChinaTax = MainlandChinaTax(salary_CNY, house_savings_rate=0.12, is_retirement=False, is_unemployment_insurance=False)
-        deductions_CNY = salary_CNY - mainlandChinaTax.salary_after_tax()
-        salary_after_tax_CNY = salary_CNY - deductions_CNY + mainlandChinaTax.house_savings() * 2
+        real_income_CNY = mainlandChinaTax.salary_after_tax() + mainlandChinaTax.house_savings() * 2
 
         # 期望總薪資的到手薪資(CNY計)
-        net_salary = net_salary_TWD/exchange_rate_CNY_to_TWD + salary_after_tax_CNY
+        net_salary = taiwanTax.net_salary()/exchange_rate_CNY_to_TWD + real_income_CNY
 
         # 填入表格
         table[s, 0] = salary # "總薪資(CNY)", 
@@ -87,4 +82,3 @@ if __name__ == '__main__':
     print('- 申報薪資比率(台:陸): {}'.format((float(table[middle_index, 3])/exchange_rate_CNY_to_TWD)/table[middle_index, 7]))
     print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[middle_index, 15]))
     print('- 到手比率(%): {}'.format(table[middle_index, 16]))
-    
