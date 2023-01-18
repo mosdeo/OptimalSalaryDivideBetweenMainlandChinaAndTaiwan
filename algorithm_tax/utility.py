@@ -47,7 +47,7 @@ def output_csv(table):
             ]
         
         # 輸出結果
-        f = open("{}.csv".format("固定薪資下，兩岸不同比例領薪計算結果"), "w", newline='', encoding='utf-8')
+        f = open("{}.csv".format("兩岸不同比例領薪計算結果"), "w", newline='', encoding='utf-8')
         try:
             writer = csv.writer(f)
             # writer = csv.writer(f, quoting=csv.QUOTE_ALL)
