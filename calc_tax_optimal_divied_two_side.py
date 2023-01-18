@@ -69,4 +69,13 @@ if __name__ == '__main__':
     print('- 申報薪資比率(台:陸): {}'.format((float(table[optimal_divide_index, 3])/exchange_rate_CNY_to_TWD)/table[optimal_divide_index, 7]))
     print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[optimal_divide_index, 14]))
     print('- 到手比率(%): {}'.format(table[optimal_divide_index, 15]))
+
+    # 印出1:1分配
+    middle_index = salary//2
+    print('1:1分配: ')
+    print('- 在台領薪資(TWD): {}'.format(table[middle_index, 3]))
+    print('- 在陸領薪資(CNY): {}'.format(table[middle_index, 7]))
+    print('- 申報薪資比率(台:陸): {}'.format((float(table[middle_index, 3])/exchange_rate_CNY_to_TWD)/table[middle_index, 7]))
+    print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[middle_index, 14]))
+    print('- 到手比率(%): {}'.format(table[middle_index, 15]))
     
