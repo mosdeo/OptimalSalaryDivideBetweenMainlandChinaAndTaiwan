@@ -49,30 +49,21 @@ if __name__ == '__main__':
         table[s,14] = net_salary # "到手總和(CNY)(計入勞資雙方公積金)",
         table[s,15] = net_salary/salary # "到手比率(%)",
 
-    # 找出到手最大分配
+    # 找出到手最大分配，並標記
     optimal_divide_index = np.argmax(table[:, 14])
     table[:, 16] = '否'
     table[optimal_divide_index, 16] = '最佳分配'
-
-    # print('Optimal divided:\n\
-    #         deductions_TWD {} CNY,\n\
-    #         deductions_CNY {} CNY,\n\
-    #         salary_TWD {} CNY,\n\
-    #         salary_CNY {} CNY,\n\
-    #         salary TWD:CNY {}:1,\n\
-    #         net_salary {} CNY,\n\
-    #         到手率 {}'.format(
-    #     table[optimal_divide_index, 0]/exchange_rate_CNY_to_TWD, 
-    #     table[optimal_divide_index, 1], 
-    #     table[optimal_divide_index, 2]/exchange_rate_CNY_to_TWD, 
-    #     table[optimal_divide_index, 3],
-    #     (table[optimal_divide_index, 2]/exchange_rate_CNY_to_TWD)/table[optimal_divide_index, 3],
-    #     table[optimal_divide_index, 4],
-    #     table[optimal_divide_index, 4]/salary),
-    #     )
 
     # 存下所有結果的表格
     # 為了避免太冗長，只存下最佳分配前後N筆的結果
     N = 10
     output_csv(table[optimal_divide_index-N:optimal_divide_index+N+1, :])
+
+    # 印出最佳分配
+    print('最佳分配: ')
+    print('在台領薪資(TWD): {}'.format(table[optimal_divide_index, 3]))
+    print('在陸領薪資(CNY): {}'.format(table[optimal_divide_index, 7]))
+    print('申報薪資比率(台:陸): {}'.format((float(table[optimal_divide_index, 3])/exchange_rate_CNY_to_TWD)/table[optimal_divide_index, 7]))
+    print('到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[optimal_divide_index, 14]))
+    print('到手比率(%): {}'.format(table[optimal_divide_index, 15]))
     
