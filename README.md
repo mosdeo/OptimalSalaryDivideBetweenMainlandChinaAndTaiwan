@@ -38,8 +38,8 @@
 - 到手比率(%): 0.9531592038690476
 ```
 
-![](figure_example_plot.png)
-![](figure_example_csv.png)
+![](pic/figure_example_plot.png)
+![](pic/figure_example_csv.png)
 
 ---
 
@@ -70,7 +70,7 @@
 - 到手比率(%): 0.8811592038690477
 ```
 
-![](figure_example_plot2.png)
+![](pic/figure_example_plot2.png)
 
 最佳解的確是跑到台灣那邊，但是到手比率卻是0.88，比繳公積金的時候還要低一點點。
 
