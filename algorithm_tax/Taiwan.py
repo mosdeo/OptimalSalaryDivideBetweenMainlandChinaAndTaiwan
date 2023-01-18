@@ -87,6 +87,7 @@ tax_mapping_table = [
 ]
 
 class TaiwanTax:
+    basic_salary = 26400 # 基本工資
     def __init__(self, salary):
         self.salary = salary
 
@@ -94,7 +95,7 @@ class TaiwanTax:
         for (min_, max_), level in mapping_table:
             if min_ <= np.ceil(self.salary) <= max_:
                 return level
-        return -1
+        raise ValueError('Salary is out of range')
 
     def health_insurance_fee(self):
         salary_level = self.__salary_level_mapping(health_insurance_mapping_table)
@@ -112,7 +113,7 @@ class TaiwanTax:
             if min_ <= tax_salary <= max_:
                 tax = tax_salary * rate - base
                 return tax
-        return -1
+        raise ValueError('Salary is out of range')
 
     def net_salary(self):
         return self.salary - self.health_insurance_fee() - self.labor_insurance_fee() - self.tax()

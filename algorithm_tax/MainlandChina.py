@@ -13,6 +13,7 @@ tax_rate_mainlandchina = [
 ]
 
 class MainlandChinaTax:
+    normal_lowest_salary = 3500 # 常規最低薪資
     def __init__(self, salary, house_savings_rate=0.05, is_retirement=True, is_unemployment_insurance=True):
         self.salary = salary
         self.house_savings_rate = house_savings_rate
