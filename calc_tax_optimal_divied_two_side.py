@@ -1,12 +1,21 @@
 import numpy as np
 import requests
 from requests.exceptions import ConnectTimeout
-from mainlandchina_tax_algo import MainlandChinaTax
-from taiwan_tax_algo import TaiwanTax
+from algorithm_tax.MainlandChina import MainlandChinaTax
+from algorithm_tax.Taiwan import TaiwanTax
+
+def __main__():
+    # 請輸入期望薪資
+    salary = int(input('請輸入期望薪資: '))
+    salary = np.array([salary])
+
+# 期望總薪資CNY
+# salary = np.array([s for s in range(30000, 60000, 100)])
+# salary = salary[-1]
 
 try:
     url = 'https://api.exchangerate-api.com/v4/latest/CNY'  # 以CNY為基準
-    res = requests.get(url, timeout=3)
+    res = requests.get(url, timeout=1)
     if 200 == res.status_code:
         data = res.json()
         # 人民幣兌台幣匯率
@@ -15,10 +24,8 @@ try:
         exchange_rate_CNY_to_TWD = 4.51
 except ConnectTimeout:
     exchange_rate_CNY_to_TWD = 4.51 # the rate of exchange on 2023/01/16
-
-# 期望總薪資CNY
-salary = np.array([s for s in range(30000, 60000, 100)])
-salary = salary[-1]
+except:
+    exchange_rate_CNY_to_TWD = 4.51 # the rate of exchange on 2023/01/16
 
 table = np.zeros(shape=(salary, 5))
 

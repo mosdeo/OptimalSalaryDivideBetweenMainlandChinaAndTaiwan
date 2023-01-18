@@ -33,7 +33,7 @@ class MainlandChinaTax:
             maternity_insurance, 
             work_injury_insurance])
 
-    def house_savings(self, rate=0.05):
+    def house_savings(self, rate=0.12):
         return self.salary * rate
 
     def tax(self):

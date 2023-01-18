@@ -1,7 +1,7 @@
 import matplotlib.markers as markers
 import numpy as np
 import matplotlib.pyplot as plt
-from taiwan_tax_algo import *
+from  algorithm_tax.Taiwan import *
 
 salary = range(10000, 10000*12, 1000)
 tax = [TaiwanTax(s).tax() for s in salary]

@@ -1,6 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
-from mainlandchina_tax_algo import MainlandChinaTax
+from algorithm_tax.MainlandChina import MainlandChinaTax
 
 salary = range(5000, 5000*12, 1)
 tax = [MainlandChinaTax(s).tax() for s in salary]
