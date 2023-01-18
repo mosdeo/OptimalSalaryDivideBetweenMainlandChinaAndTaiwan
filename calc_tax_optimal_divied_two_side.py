@@ -1,4 +1,6 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import matplotlib.markers as markers
 from algorithm_tax.MainlandChina import MainlandChinaTax
 from algorithm_tax.Taiwan import TaiwanTax
 from algorithm_tax.utility import get_newset_exchange_rate, output_csv
@@ -82,3 +84,46 @@ if __name__ == '__main__':
     print('- 申報薪資比率(台:陸): {}'.format((float(table[middle_index, 3])/exchange_rate_CNY_to_TWD)/table[middle_index, 7]))
     print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[middle_index, 15]))
     print('- 到手比率(%): {}'.format(table[middle_index, 16]))
+
+    # 繪圖
+    ## 去除多餘的空行
+    table = table[~np.all(table == 0, axis=1)]
+    fig, ax = plt.subplots()
+    ax.grid(True)
+    ax.set_title('Optimal Salary Distribution Between Taiwan and Mainland China')
+    ax.set_xlabel('Salary Distribution Rate (Taiwan:Both)')
+    ax.set_ylabel('Salary in Taiwan, Mainland China, Income Sum of Both (CNY)')
+
+    marker = markers.MarkerStyle(marker='.', fillstyle='none')
+    scatter_marker_size = 1
+    x_salary_rate = np.array(list(range(salary)))/salary
+    line_salary_tw = ax.scatter(
+                        label='Salary in Taiwan',
+                        x=x_salary_rate, y=table[:,3]/exchange_rate_CNY_to_TWD, 
+                        marker=marker, color='g', alpha=0.5, s=scatter_marker_size)
+    line_salary_ch = ax.scatter(
+                        label='Salary in Mainland China',
+                        x=x_salary_rate, y=table[:,7], 
+                        marker=marker, color='r', alpha=0.5, s=scatter_marker_size)
+    line_income_both = ax.scatter(
+                        label='Income Both',
+                        x=x_salary_rate, y=table[:,15],
+                        marker=marker, color='y', alpha=0.5, s=scatter_marker_size)
+    line_optimal_divide = plt.axvline(
+                        label='Optimal Divide Point',
+                        x=x_salary_rate[optimal_divide_index], color='purple', alpha=0.5)
+    plt.legend(
+        handles=[
+            line_salary_tw, 
+            line_salary_ch, 
+            line_income_both,
+            line_optimal_divide,
+            ],
+        loc='center right')
+
+    fig.tight_layout()
+    fig.autofmt_xdate()
+    ax.text(0.3, 0.8, 'Income included all of House Savings 12% twice.', style='italic',
+        bbox={'facecolor': 'red', 'alpha': 0.3, 'pad': 10})
+
+    plt.show()
