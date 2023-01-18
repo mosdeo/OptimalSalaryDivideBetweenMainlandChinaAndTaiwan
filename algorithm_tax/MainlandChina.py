@@ -13,13 +13,16 @@ tax_rate_mainlandchina = [
 ]
 
 class MainlandChinaTax:
-    def __init__(self, salary):
+    def __init__(self, salary, house_savings_rate=0.05, is_retirement=True, is_unemployment_insurance=True):
         self.salary = salary
+        self.house_savings_rate = house_savings_rate
+        self.is_retirement = is_retirement
+        self.is_unemployment_insurance = is_unemployment_insurance
 
     def five_insurances(self):
-        retirement = self.salary * 0.08 # 退休金
+        retirement = self.salary * 0.08 if self.is_retirement else 0 # 養老金
+        unemployment_insurance = self.salary * 0.005 if self.is_retirement else 0 # 失業保險
         medical_insurance = self.salary * 0.02 # 醫療保險
-        unemployment_insurance = self.salary * 0.005 # 失業保險
         maternity_insurance = 0 # 生育保險
 
         # 工傷保險
@@ -33,8 +36,8 @@ class MainlandChinaTax:
             maternity_insurance, 
             work_injury_insurance])
 
-    def house_savings(self, rate=0.12):
-        return self.salary * rate
+    def house_savings(self):
+        return self.salary * self.house_savings_rate
 
     def tax(self):
         # 參考
