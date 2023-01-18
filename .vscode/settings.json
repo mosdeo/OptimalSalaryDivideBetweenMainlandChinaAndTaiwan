@@ -1,3 +1,8 @@
 {
-    "python.analysis.typeCheckingMode": "basic"
+    "python.analysis.typeCheckingMode": "basic",
+    "python.analysis.extraPaths": [
+        "/Library/OpenCV/opencv-4.5.3/build/lib/python3",
+        "/usr/local/lib/python3.9/site-packages/cv2/python-3.9",
+        "./algorithm_tax"
+    ]
 }
