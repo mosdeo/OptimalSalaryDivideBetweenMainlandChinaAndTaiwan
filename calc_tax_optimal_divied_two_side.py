@@ -1,4 +1,5 @@
 import numpy as np
+from datetime import datetime, time
 from algorithm_tax.MainlandChina import MainlandChinaTax
 from algorithm_tax.Taiwan import TaiwanTax
 from algorithm_tax.utility import get_newset_exchange_rate
@@ -7,14 +8,13 @@ if __name__ == '__main__':
     # 請輸入期望薪資
     salary = int(input('請輸入期望薪資(CNY): '))
 
-    # 期望總薪資CNY
-    # salary = np.array([s for s in range(30000, 60000, 100)])
-    # salary = salary[-1]
-
+    # 取得最新匯率
     exchange_rate_CNY_to_TWD = get_newset_exchange_rate()
+    dt = datetime.now()
+    print('{} 人民幣兌台幣匯率: {}'.format(dt, exchange_rate_CNY_to_TWD))
 
+    # 建立表格
     table = np.zeros(shape=(salary, 5))
-
     for s in range(salary):
         # 期望薪資TWD部分、扣項、到手部分
         salary_TWD = s * exchange_rate_CNY_to_TWD
@@ -22,9 +22,10 @@ if __name__ == '__main__':
         net_salary_TWD = salary_TWD - deductions_TWD
 
         # 期望薪資CNY部分、扣項、到手部分
+        # 這裡將公積金算入到手薪資中，但依然是扣項
         salary_CNY = salary - s
         deductions_CNY = salary_CNY - MainlandChinaTax(salary_CNY).salary_after_tax()
-        salary_after_tax_CNY = salary_CNY - deductions_CNY # + MainlandChinaTax(salary_CNY).house_savings() * 2
+        salary_after_tax_CNY = salary_CNY - deductions_CNY + MainlandChinaTax(salary_CNY).house_savings() * 2
 
         # 期望總薪資的到手薪資(CNY計)
         net_salary = net_salary_TWD/exchange_rate_CNY_to_TWD + salary_after_tax_CNY
@@ -35,7 +36,7 @@ if __name__ == '__main__':
         table[s, 3] = salary_CNY
         table[s, 4] = net_salary
 
-    # 找出最佳分配
+    # 找出到手最大分配
     optimal_divide_index = np.argmax(table[:, 4])
 
     print('Optimal divided:\n\
