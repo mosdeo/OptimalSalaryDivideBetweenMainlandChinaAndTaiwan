@@ -110,7 +110,7 @@ if __name__ == '__main__':
                         x=x_salary_rate, y=table[:,15],
                         marker=marker, color='y', alpha=0.5, s=scatter_marker_size)
     line_optimal_divide = plt.axvline(
-                        label='Optimal Divide Point',
+                        label='Optimum Divided Point',
                         x=x_salary_rate[optimal_divide_index], color='purple', alpha=0.5)
     plt.legend(
         handles=[
@@ -121,9 +121,9 @@ if __name__ == '__main__':
             ],
         loc='center right')
 
-    fig.tight_layout()
-    fig.autofmt_xdate()
     ax.text(0.3, 0.8, 'Income included all of House Savings 12% twice.', style='italic',
         bbox={'facecolor': 'red', 'alpha': 0.3, 'pad': 10})
-
+        
+    fig.tight_layout()
+    fig.autofmt_xdate()
     plt.show()
