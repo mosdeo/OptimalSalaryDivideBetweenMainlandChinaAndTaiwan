@@ -12,11 +12,11 @@ if __name__ == '__main__':
     print('{} 人民幣兌台幣匯率: {}'.format(date, exchange_rate_CNY_to_TWD))
 
     # 建立表格
-    table = np.zeros(shape=(salary, 17), dtype=object)
+    table = np.zeros(shape=(salary, 18), dtype=object)
     for s in range(salary):
         # 期望薪資TWD部分、扣項、到手部分
         salary_TWD = s * exchange_rate_CNY_to_TWD
-        
+
         # 不足台灣法定最低工資，則不計算
         if salary_TWD < TaiwanTax.basic_salary:
             continue
@@ -56,14 +56,15 @@ if __name__ == '__main__':
         table[s,11] = mainlandChinaTax.work_injury_insurance() # "個人繳工傷保險費",
         table[s,12] = mainlandChinaTax.retirement() # "個人繳養老金",
         table[s,13] = mainlandChinaTax.house_savings() # "個人繳公積金",
+        table[s,14] = mainlandChinaTax.tax() # "大陸税金",
 
-        table[s,14] = net_salary # "到手總和(CNY)(計入勞資雙方公積金)",
-        table[s,15] = net_salary/salary # "到手比率(%)",
+        table[s,15] = net_salary # "到手總和(CNY)(計入勞資雙方公積金)",
+        table[s,16] = net_salary/salary # "到手比率(%)",
 
     # 找出到手最大分配，並標記
-    optimal_divide_index = np.argmax(table[:, 14])
-    table[:, 16] = '否'
-    table[optimal_divide_index, 16] = '最佳分配'
+    optimal_divide_index = np.argmax(table[:, 15])
+    table[:, 17] = '否'
+    table[optimal_divide_index, 17] = '最佳分配'
 
     # 存下所有結果的表格
     # 為了避免太冗長，只存下最佳分配前後N筆的結果
@@ -75,8 +76,8 @@ if __name__ == '__main__':
     print('- 在台領薪資(TWD): {}'.format(table[optimal_divide_index, 3]))
     print('- 在陸領薪資(CNY): {}'.format(table[optimal_divide_index, 7]))
     print('- 申報薪資比率(台:陸): {}'.format((float(table[optimal_divide_index, 3])/exchange_rate_CNY_to_TWD)/table[optimal_divide_index, 7]))
-    print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[optimal_divide_index, 14]))
-    print('- 到手比率(%): {}'.format(table[optimal_divide_index, 15]))
+    print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[optimal_divide_index, 15]))
+    print('- 到手比率(%): {}'.format(table[optimal_divide_index, 16]))
 
     # 印出1:1分配
     middle_index = salary//2
@@ -84,6 +85,6 @@ if __name__ == '__main__':
     print('- 在台領薪資(TWD): {}'.format(table[middle_index, 3]))
     print('- 在陸領薪資(CNY): {}'.format(table[middle_index, 7]))
     print('- 申報薪資比率(台:陸): {}'.format((float(table[middle_index, 3])/exchange_rate_CNY_to_TWD)/table[middle_index, 7]))
-    print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[middle_index, 14]))
-    print('- 到手比率(%): {}'.format(table[middle_index, 15]))
+    print('- 到手總和(CNY)(計入勞資雙方公積金): {}'.format(table[middle_index, 15]))
+    print('- 到手比率(%): {}'.format(table[middle_index, 16]))
     
