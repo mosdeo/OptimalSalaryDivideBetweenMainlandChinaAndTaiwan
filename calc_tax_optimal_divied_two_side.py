@@ -5,7 +5,7 @@ from algorithm_tax.utility import get_newset_exchange_rate, output_csv
 
 if __name__ == '__main__':
     # 請輸入期望薪資
-    salary = int(input('請輸入期望薪資(CNY): '))
+    salary = int(input('請輸入期望月薪資(CNY): '))
 
     # 取得最新匯率
     date, exchange_rate_CNY_to_TWD = get_newset_exchange_rate()
