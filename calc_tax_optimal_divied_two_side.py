@@ -1,5 +1,4 @@
 import numpy as np
-from datetime import datetime, time
 from algorithm_tax.MainlandChina import MainlandChinaTax
 from algorithm_tax.Taiwan import TaiwanTax
 from algorithm_tax.utility import get_newset_exchange_rate
@@ -9,9 +8,8 @@ if __name__ == '__main__':
     salary = int(input('請輸入期望薪資(CNY): '))
 
     # 取得最新匯率
-    exchange_rate_CNY_to_TWD = get_newset_exchange_rate()
-    dt = datetime.now()
-    print('{} 人民幣兌台幣匯率: {}'.format(dt, exchange_rate_CNY_to_TWD))
+    date, exchange_rate_CNY_to_TWD = get_newset_exchange_rate()
+    print('{} 人民幣兌台幣匯率: {}'.format(date, exchange_rate_CNY_to_TWD))
 
     # 建立表格
     table = np.zeros(shape=(salary, 5))
